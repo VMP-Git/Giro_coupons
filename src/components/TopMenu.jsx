@@ -31,6 +31,7 @@ const TopMenu = () => {
                 All Pages
               </button>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                {/* Existing Pages */}
                 <li>
                   <Link className="dropdown-item" to="/account/signin">
                     Sign In
@@ -77,8 +78,24 @@ const TopMenu = () => {
                     500 Internal Server Error
                   </Link>
                 </li>
+
+                {/* New Pages for Campaigns and Coupons */}
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/campaigns">
+                    Campaigns
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/coupons">
+                    Coupons
+                  </Link>
+                </li>
               </ul>
             </li>
+            {/* Other Links */}
             <li className="nav-item">
               <Link className="nav-link" to="/category">
                 Fashion
