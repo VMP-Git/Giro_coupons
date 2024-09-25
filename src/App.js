@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.min.css";
 
+import DashboardPage from "./views/pages/DashboardPage";
+
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
@@ -90,6 +92,7 @@ function App() {
             <Route exact path="/blog/detail" element={<BlogDetailView />} />
             <Route exact path="/coupons" element={<CouponsPage />} />
             <Route path="/campaigns" element={<CampaignsPage />} />
+            <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route exact path="/500" element={<InternalServerErrorView />} />
             <Route path="*" element={<NotFoundView />} />
           </Routes>

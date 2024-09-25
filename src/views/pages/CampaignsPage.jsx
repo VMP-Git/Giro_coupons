@@ -12,29 +12,26 @@ const CampaignsPage = () => {
   // API Call to fetch campaigns for a specific page
   const fetchCampaigns = async (page = 1) => {
     try {
-      // Show loading when fetching new data
       setLoading(true);
-
-      // Make the API request
       const response = await axios.get(
         `https://api.boostiny.com/publisher/campaigns?page=${page}`,
         {
           headers: {
             Accept: "application/json",
-            Authorization: "186fb9118a80850c7ceb35ebd04b1667e2320448", // Use your real API key here
+            Authorization: "186fb9118a80850c7ceb35ebd04b1667e2320448",
           },
         }
       );
 
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch campaigns. Please try again later.");
+      }
+
       const fetchedCampaigns = response.data.payload.data;
       const pagination = response.data.payload.pagination;
 
-      // Update total pages based on the first request
       setTotalPages(Math.ceil(pagination.total / pagination.perPage));
-
-      // Replace the existing campaigns with the newly fetched campaigns
       setCampaigns(fetchedCampaigns);
-
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -49,7 +46,14 @@ const CampaignsPage = () => {
 
   // Handle loading and error states
   if (loading) {
-    return <p className="text-center">Loading campaigns...</p>;
+    return (
+      <div className="text-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading campaigns...</p>
+      </div>
+    );
   }
 
   if (error) {

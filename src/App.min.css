@@ -69,18 +69,3 @@
 .accordion-icon-button.collapsed {
   border-bottom: none;
 }
-
-/* Add to CampaignsPage.css or equivalent */
-.campaigns-container {
-  padding: 20px;
-}
-
-.campaign-card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 10px 0;
-}
-
-.campaign-card h2 {
-  margin: 0;
-}

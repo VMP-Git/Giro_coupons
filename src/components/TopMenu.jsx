@@ -20,6 +20,7 @@ const TopMenu = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
+            {/* Original Dropdown for All Pages */}
             <li className="nav-item dropdown">
               <button
                 className="btn nav-link dropdown-toggle fw-bold"
@@ -31,7 +32,6 @@ const TopMenu = () => {
                 All Pages
               </button>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {/* Existing Pages */}
                 <li>
                   <Link className="dropdown-item" to="/account/signin">
                     Sign In
@@ -78,23 +78,21 @@ const TopMenu = () => {
                     500 Internal Server Error
                   </Link>
                 </li>
-
-                {/* New Pages for Campaigns and Coupons */}
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/campaigns">
-                    Campaigns
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/coupons">
-                    Coupons
-                  </Link>
-                </li>
               </ul>
             </li>
+
+            {/* Removed Campaigns and Coupons from dropdown and added here */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/campaigns">
+                Campaigns
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/coupons">
+                Coupons
+              </Link>
+            </li>
+
             {/* Other Links */}
             <li className="nav-item">
               <Link className="nav-link" to="/category">
@@ -129,6 +127,11 @@ const TopMenu = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/documentation">
                 Documentation
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/dashboard">
+                Dashboard
               </Link>
             </li>
           </ul>
