@@ -5,7 +5,7 @@ const TopMenu = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-0">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          E-Commerce
+          Giro Coupons
         </Link>
         <button
           className="navbar-toggler"
@@ -21,7 +21,7 @@ const TopMenu = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
             {/* Original Dropdown for All Pages */}
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <button
                 className="btn nav-link dropdown-toggle fw-bold"
                 id="navbarDropdown"
@@ -79,7 +79,7 @@ const TopMenu = () => {
                   </Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             {/* Removed Campaigns and Coupons from dropdown and added here */}
             <li className="nav-item">
@@ -87,14 +87,14 @@ const TopMenu = () => {
                 Campaigns
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/coupons">
                 Coupons
               </Link>
-            </li>
+            </li> */}
 
             {/* Other Links */}
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/category">
                 Fashion
               </Link>
@@ -128,7 +128,7 @@ const TopMenu = () => {
               <Link className="nav-link" to="/documentation">
                 Documentation
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard">
                 Dashboard

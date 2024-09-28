@@ -37,13 +37,15 @@ const Footer = () => {
       <div className="container-fluid bg-dark text-white">
         <div className="row ">
           <div className="col-md-3 py-3">
-            <div className="h6">Company Name</div>
+            <div className="h6">Giro Coupons</div>
             <hr />
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              Giro Coupons is a versatile coupon code platform designed to help
+              users discover and redeem exclusive discounts and deals across
+              various online stores. It simplifies the process of finding active
+              promo codes, offering users an easy way to save money while
+              shopping. Retailers can also leverage Giro Coupons to promote
+              special offers, boosting sales and customer engagement.
             </p>
           </div>
           <div className="col-md-3 py-3">
@@ -142,19 +144,19 @@ const Footer = () => {
             <div className="h6">Address</div>
             <hr />
             <address>
-              <strong>Twitter, Inc.</strong>
+              <strong>Giro Technologies LLC</strong>
               <br />
-              1355 Market St, Suite 900
+              DIFC
               <br />
-              San Francisco, CA 94103
+              Dubai
               <br />
-              <abbr title="Phone">P:</abbr> (123) 456-7890
+              <abbr title="Phone">P:</abbr> +97152 824 1122
             </address>
             <div className="h6">Customer Care</div>
             <hr />
-            <i className="bi bi-telephone"></i> +1800 100 1000
+            {/* <i className="bi bi-telephone"></i> */}
             <br />
-            <i className="bi bi-envelope"></i> info@email.com
+            <i className="bi bi-envelope"></i> info@girotechnologies.com
           </div>
         </div>
       </div>

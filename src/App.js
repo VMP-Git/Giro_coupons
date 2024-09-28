@@ -10,6 +10,9 @@ import "./App.min.css";
 
 import DashboardPage from "./views/pages/DashboardPage";
 
+import BoostinyDashboard from "./views/pages/BoostinyDashboard"; // Import your new component
+// ... other imports
+
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
@@ -93,6 +96,8 @@ function App() {
             <Route exact path="/coupons" element={<CouponsPage />} />
             <Route path="/campaigns" element={<CampaignsPage />} />
             <Route exact path="/dashboard" element={<DashboardPage />} />
+
+            <Route path="/boostiny-dashboard" element={<BoostinyDashboard />} />
             <Route exact path="/500" element={<InternalServerErrorView />} />
             <Route path="*" element={<NotFoundView />} />
           </Routes>

@@ -2,21 +2,21 @@ export const data = {
   banner: [
     {
       to: "/link",
-      img: "../../images/Girogamezlogobanner.png",
-      title: "First slide label",
-      description: "Nulla vitae elit libero, a pharetra augue mollis interdum",
+      img: "../../images/brandsCollageimage.png",
+      // title: "First slide label",
+      // description: "Nulla vitae elit libero, a pharetra augue mollis interdum",
     },
     {
       to: "/link",
-      img: "../../images/banner/Banner_3.webp",
-      title: "Second slide label",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      img: "../../images/brandsCollageimage.png",
+      // title: "Second slide label",
+      // description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
       to: "/link",
-      img: "../../images/banner/Banner_1.webp",
-      title: "Third slide label",
-      description: " Praesent commodo cursus magna, vel scelerisque nisl.",
+      img: "../../images/brandsCollageimage.png",
+      // title: "Third slide label",
+      // description: " Praesent commodo cursus magna, vel scelerisque nisl.",
     },
   ],
   iconProducts: [

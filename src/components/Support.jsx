@@ -24,7 +24,7 @@ const Support = (props) => {
           </div>
         </div>
       </div>
-      <div className="col-md-4">
+      {/* <div className="col-md-4">
         <div className="card bg-success">
           <div className="card-body text-white">
             <span className="p-3 bg-light rounded-circle me-3 text-dark">
@@ -33,7 +33,7 @@ const Support = (props) => {
             Quick delivery
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

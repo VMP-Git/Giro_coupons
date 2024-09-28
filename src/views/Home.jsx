@@ -10,6 +10,8 @@ import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
 import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
 import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
 
+import "../App.css"; // Adjust the path as necessary
+
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
 const Carousel = lazy(() => import("../components/carousel/Carousel"));
@@ -53,7 +55,11 @@ class HomeView extends Component {
                   tips={product.tips}
                   to={product.to}
                 >
-                  <ProductImage className={product.cssClass} width="80" height="80" />
+                  <ProductImage
+                    className={product.cssClass}
+                    width="80"
+                    height="80"
+                  />
                 </CardIcon>
               </div>
             );
@@ -87,56 +93,64 @@ class HomeView extends Component {
                 title="Deals of the Day"
                 to="/"
               >
-                <Carousel id="elect-product-category1">
+                {/* <Carousel id="elect-product-category1">
                   {carouselContent}
-                </Carousel>
+                </Carousel> */}
               </CardDealsOfTheDay>
             </div>
           </div>
         </div>
 
         <div className="bg-info bg-gradient p-3 text-center mb-3">
-          <h4 className="m-0">Explore Fashion Collection</h4>
+          <h4 className="m-0">Explore More...</h4>
         </div>
         <div className="container">
           <div className="row">
             <div className="col-md-3">
               <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/male.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Men's Clothing</div>
+                <div className="img-container">
+                  <img
+                    src="../../images/noonimage.png"
+                    className="custom-image"
+                    alt="..."
+                  />
+                </div>
+                {/* <div className="text-center h6">Men's Clothing</div> */}
               </Link>
             </div>
             <div className="col-md-3">
               <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/female.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Women's Clothing</div>
+                <div className="img-container">
+                  <img
+                    src="../../images/panimage.png"
+                    className="custom-image"
+                    alt="..."
+                  />
+                </div>
+                {/* <div className="text-center h6">Women's Clothing</div> */}
               </Link>
             </div>
             <div className="col-md-3">
               <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/smartwatch.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Smartwatch</div>
+                <div className="img-container">
+                  <img
+                    src="../../images/jumboimage.png"
+                    className="custom-image"
+                    alt="..."
+                  />
+                </div>
+                {/* <div className="text-center h6">Smartwatch</div> */}
               </Link>
             </div>
             <div className="col-md-3">
               <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/footwear.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
+                <div className="img-container">
+                  <img
+                    src="../../images/amazonimage.png"
+                    className="custom-image"
+                    alt="..."
+                  />
+                </div>
                 <div className="text-center h6">Footwear</div>
               </Link>
             </div>

@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import "../../App.css";
+
 const Item = ({ item, index }) => (
   <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
     <Link to={item.to}>
-      <img src={item.img} className="img-fluid" alt={item.title} />
+      <div className="image-container">
+        <img src={item.img} className="img-fluid" alt={item.title} />
+      </div>
       {(item.title || item.description) && (
         <div className="carousel-caption d-none d-md-block">
           {item.title && <h5>{item.title}</h5>}
