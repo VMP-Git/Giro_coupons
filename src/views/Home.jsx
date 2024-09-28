@@ -151,7 +151,7 @@ class HomeView extends Component {
                     alt="..."
                   />
                 </div>
-                <div className="text-center h6">Footwear</div>
+                {/* <div className="text-center h6">Footwear</div> */}
               </Link>
             </div>
           </div>

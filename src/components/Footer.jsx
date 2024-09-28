@@ -48,7 +48,7 @@ const Footer = () => {
               special offers, boosting sales and customer engagement.
             </p>
           </div>
-          <div className="col-md-3 py-3">
+          {/* <div className="col-md-3 py-3">
             <div className="h6">Products</div>
             <hr />
             <ul className="list-group list-group-flush">
@@ -93,7 +93,7 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div className="col-md-3 py-3">
             <div className="h6">Policy</div>
             <hr />
@@ -178,7 +178,7 @@ const Footer = () => {
             </Link>
           </div>
           <div className="col-md-3 py-2">
-            © 2009-{new Date().getFullYear()} React-E-Commerce.com (
+            © 2017-{new Date().getFullYear()} Giro Coupons (
             {process.env.REACT_APP_VERSION})
           </div>
           <div className="col-md-3 py-2 bg-white">
