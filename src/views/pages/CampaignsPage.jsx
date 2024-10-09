@@ -44,6 +44,13 @@ const CampaignsPage = () => {
     fetchCampaigns(currentPage);
   }, [currentPage]);
 
+  // Handle coupon code visibility toggle
+  const [showCode, setShowCode] = useState(null); // Track which coupon code is shown
+
+  const handleShowCode = (index) => {
+    setShowCode((prevIndex) => (prevIndex === index ? null : index)); // Toggle code visibility
+  };
+
   // Handle loading and error states
   if (loading) {
     return (
@@ -75,54 +82,42 @@ const CampaignsPage = () => {
           {campaigns.map((campaign, index) => (
             <div key={`${campaign.id}-${index}`} className="col-md-4 mb-4">
               <div className="card h-100 shadow-sm">
-                <div className="card-body bg-info">
+                {/* Brand logo */}
+                {campaign.advertiser?.logo && (
+                  <img
+                    src={campaign.advertiser.logo}
+                    alt={`${campaign.advertiser.name} Logo`}
+                    className="card-img-top p-3"
+                    style={{ height: "150px", objectFit: "contain" }} // Adjust logo size
+                  />
+                )}
+
+                <div className="card-body bg-light">
                   <h5 className="card-title">
                     {campaign.name || "Unnamed Campaign"}
                   </h5>
-                  <p className="card-text">
-                    Type: {campaign.campaign_type || "N/A"}
-                  </p>
-                  <p className="card-text">
-                    Payout: {campaign.payouts?.[0]?.value || "N/A"}
-                  </p>
 
                   {campaign.coupons?.length > 0 ? (
-                    <p className="card-text">
-                      Coupon:{" "}
-                      <span className="badge bg-success">
-                        {campaign.coupons[0].coupon}
-                      </span>
-                    </p>
+                    <div className="coupon-section">
+                      <p className="card-text">
+                        Coupon:{" "}
+                        {showCode === index ? (
+                          <span className="badge bg-success">
+                            {campaign.coupons[0].coupon}
+                          </span>
+                        ) : (
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={() => handleShowCode(index)}
+                          >
+                            Show Code
+                          </button>
+                        )}
+                      </p>
+                    </div>
                   ) : (
-                    <p className="card-text">
-                      Tracking Link:{" "}
-                      <a
-                        href={
-                          campaign.tracking_link_details?.tracking_links?.[0]
-                            ?.url || "#"
-                        }
-                        className="text-decoration-none"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {campaign.tracking_link_details?.tracking_links?.[0]
-                          ?.url || "No Link"}
-                      </a>
-                    </p>
+                    <p className="card-text text-muted">No Coupons Available</p>
                   )}
-
-                  <p className="card-text">
-                    Advertiser: {campaign.advertiser?.name || "Unknown"}
-                  </p>
-
-                  <p className="card-text">
-                    Target Countries:{" "}
-                    {campaign.targetCountries?.length > 0
-                      ? campaign.targetCountries
-                          .map((country) => country.name)
-                          .join(", ")
-                      : "No Target Countries"}
-                  </p>
                 </div>
               </div>
             </div>
