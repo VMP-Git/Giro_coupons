@@ -9,6 +9,9 @@ const CampaignsPage = () => {
   const [currentPage, setCurrentPage] = useState(1); // Track current page
   const [totalPages, setTotalPages] = useState(1); // Track total pages
 
+  // Fallback image if logo URL fails
+  const defaultLogo = "../../images/Girogamezlogo.png"; // Adjust this path
+
   // API Call to fetch campaigns for a specific page
   const fetchCampaigns = async (page = 1) => {
     try {
@@ -82,42 +85,70 @@ const CampaignsPage = () => {
           {campaigns.map((campaign, index) => (
             <div key={`${campaign.id}-${index}`} className="col-md-4 mb-4">
               <div className="card h-100 shadow-sm">
-                {/* Brand logo */}
                 {campaign.advertiser?.logo && (
                   <img
                     src={campaign.advertiser.logo}
                     alt={`${campaign.advertiser.name} Logo`}
                     className="card-img-top p-3"
-                    style={{ height: "150px", objectFit: "contain" }} // Adjust logo size
+                    style={{ height: "150px", objectFit: "contain" }}
+                    onError={(e) => (e.target.src = defaultLogo)}
                   />
                 )}
-
                 <div className="card-body bg-light">
                   <h5 className="card-title">
                     {campaign.name || "Unnamed Campaign"}
                   </h5>
 
-                  {campaign.coupons?.length > 0 ? (
-                    <div className="coupon-section">
-                      <p className="card-text">
-                        Coupon:{" "}
-                        {showCode === index ? (
-                          <span className="badge bg-success">
-                            {campaign.coupons[0].coupon}
-                          </span>
-                        ) : (
-                          <button
-                            className="btn btn-outline-primary"
-                            onClick={() => handleShowCode(index)}
-                          >
-                            Show Code
-                          </button>
-                        )}
+                  {/* Show Coupon or Visit Site based on availability */}
+                  <div className="d-flex justify-content-between align-items-center">
+                    {campaign.coupons?.length > 0 ? (
+                      <div className="coupon-section">
+                        <p className="card-text mb-0">
+                          Coupon:{" "}
+                          {showCode === index ? (
+                            <span className="badge bg-success">
+                              {campaign.coupons[0].coupon}
+                            </span>
+                          ) : (
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={() => handleShowCode(index)}
+                            >
+                              Show Code
+                            </button>
+                          )}
+                        </p>
+                      </div>
+                    ) : campaign.tracking_link_details?.tracking_links?.length >
+                      0 ? (
+                      <a
+                        href={
+                          campaign.tracking_link_details.tracking_links[0].url
+                        }
+                        className="btn btn-outline-primary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Visit Site
+                      </a>
+                    ) : (
+                      <p className="card-text text-muted">
+                        No Coupons or Links Available
                       </p>
-                    </div>
-                  ) : (
-                    <p className="card-text text-muted">No Coupons Available</p>
-                  )}
+                    )}
+
+                    {/* "Visit Page" button */}
+                    {campaign.campaign_description?.website_url && (
+                      <a
+                        href={campaign.campaign_description.website_url}
+                        className="btn btn-outline-info"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Visit Page
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,9 +157,9 @@ const CampaignsPage = () => {
       )}
 
       {/* Pagination Buttons */}
-      <div className="d-flex justify-content-between mt-4">
+      <div className="d-flex justify-content-around mt-4">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary mb-5"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
         >
@@ -136,7 +167,7 @@ const CampaignsPage = () => {
         </button>
 
         <button
-          className="btn btn-primary"
+          className="btn btn-primary mb-5"
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
         >
