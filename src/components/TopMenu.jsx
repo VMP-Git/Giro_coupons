@@ -82,11 +82,11 @@ const TopMenu = () => {
             </li> */}
 
             {/* Removed Campaigns and Coupons from dropdown and added here */}
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/campaigns">
                 Campaigns
               </Link>
-            </li>
+            </li> */}
             {/* <li className="nav-item">
               <Link className="nav-link" to="/coupons">
                 Coupons

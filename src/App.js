@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -15,7 +15,7 @@ import BoostinyDashboard from "./views/pages/BoostinyDashboard"; // Import your 
 
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
-const HomeView = lazy(() => import("./views/Home"));
+//const HomeView = lazy(() => import("./views/Home"));
 const SignInView = lazy(() => import("./views/account/SignIn"));
 const SignUpView = lazy(() => import("./views/account/SignUp"));
 const ForgotPasswordView = lazy(() => import("./views/account/ForgotPassword"));
@@ -58,7 +58,13 @@ function App() {
           }
         >
           <Routes>
-            <Route exact path="/" element={<HomeView />} />
+            {/* Redirect root ("/") to the Campaigns Page */}
+            <Route path="/" element={<Navigate to="/campaigns" replace />} />
+
+            {/* Campaigns Page will act as the new Home Page */}
+            <Route exact path="/campaigns" element={<CampaignsPage />} />
+
+            {/* Other Routes */}
             <Route exact path="/account/signin" element={<SignInView />} />
             <Route exact path="/account/signup" element={<SignUpView />} />
             <Route
@@ -94,9 +100,7 @@ function App() {
             <Route exact path="/blog" element={<BlogView />} />
             <Route exact path="/blog/detail" element={<BlogDetailView />} />
             <Route exact path="/coupons" element={<CouponsPage />} />
-            <Route path="/campaigns" element={<CampaignsPage />} />
             <Route exact path="/dashboard" element={<DashboardPage />} />
-
             <Route path="/boostiny-dashboard" element={<BoostinyDashboard />} />
             <Route exact path="/500" element={<InternalServerErrorView />} />
             <Route path="*" element={<NotFoundView />} />

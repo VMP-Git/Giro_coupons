@@ -84,7 +84,7 @@ const CampaignsPage = () => {
         <div className="row">
           {campaigns.map((campaign, index) => (
             <div key={`${campaign.id}-${index}`} className="col-md-4 mb-4">
-              <div className="card h-100 shadow-sm">
+              <div className="card h-100 shadow">
                 {campaign.advertiser?.logo && (
                   <img
                     src={campaign.advertiser.logo}
