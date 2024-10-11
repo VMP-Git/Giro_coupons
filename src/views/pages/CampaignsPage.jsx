@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom"; // Use for capturing search query
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -6,8 +7,12 @@ const CampaignsPage = () => {
   const [campaigns, setCampaigns] = useState([]); // Track current campaigns
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
+  const [filteredCampaigns, setFilteredCampaigns] = useState([]); // Filtered campaigns list
   const [currentPage, setCurrentPage] = useState(1); // Track current page
   const [totalPages, setTotalPages] = useState(1); // Track total pages
+
+  const location = useLocation(); // Get location for search query
+  const query = new URLSearchParams(location.search).get("search"); // Extract search query from URL
 
   // Fallback image if logo URL fails
   const defaultLogo = "../../images/Girogamezlogo.png"; // Adjust this path
@@ -41,6 +46,18 @@ const CampaignsPage = () => {
       setLoading(false);
     }
   };
+
+  // Filter campaigns based on search query
+  useEffect(() => {
+    if (query) {
+      const filtered = campaigns.filter((campaign) =>
+        campaign.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCampaigns(filtered);
+    } else {
+      setFilteredCampaigns(campaigns); // Show all campaigns if no query
+    }
+  }, [campaigns, query]);
 
   // Fetch campaigns when the component mounts and when the current page changes
   useEffect(() => {
@@ -78,11 +95,11 @@ const CampaignsPage = () => {
     <div className="container mt-4">
       <h1 className="text-center mb-4">Active Campaigns</h1>
 
-      {campaigns.length === 0 ? (
+      {filteredCampaigns.length === 0 ? (
         <p className="text-center">No campaigns available.</p>
       ) : (
         <div className="row">
-          {campaigns.map((campaign, index) => (
+          {filteredCampaigns.map((campaign, index) => (
             <div key={`${campaign.id}-${index}`} className="col-md-4 mb-4">
               <div className="card h-100 shadow">
                 {campaign.advertiser?.logo && (
