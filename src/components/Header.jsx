@@ -2,7 +2,7 @@ import { lazy } from "react";
 import { Link } from "react-router-dom";
 const Search = lazy(() => import("./Search"));
 
-const Header = () => {
+const Header = ({ onSearch }) => {
   return (
     <header className="p-3 border-bottom bg-light">
       <div className="container-fluid">
@@ -17,7 +17,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="col-md-5">
-            <Search />
+            <Search onSearch={onSearch} />
           </div>
           <div className="col-md-4">
             {/* <div className="position-relative d-inline me-3">

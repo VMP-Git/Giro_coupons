@@ -1,45 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // Use for capturing search query
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CampaignsPage = () => {
-  const [campaigns, setCampaigns] = useState([]); // Track current campaigns
+const CampaignsPage = ({ searchQuery }) => {
+  const [campaigns, setCampaigns] = useState([]); // Track all campaigns
+  const [filteredCampaigns, setFilteredCampaigns] = useState([]); // Track filtered campaigns
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
-  const [filteredCampaigns, setFilteredCampaigns] = useState([]); // Filtered campaigns list
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [totalPages, setTotalPages] = useState(1); // Track total pages
-
-  const location = useLocation(); // Get location for search query
-  const query = new URLSearchParams(location.search).get("search"); // Extract search query from URL
 
   // Fallback image if logo URL fails
   const defaultLogo = "../../images/Girogamezlogo.png"; // Adjust this path
 
-  // API Call to fetch campaigns for a specific page
-  const fetchCampaigns = async (page = 1) => {
+  // Function to fetch all campaigns across pages
+  const fetchAllCampaigns = async () => {
+    let allCampaigns = [];
+    let currentPage = 1;
+    let totalPages = 1;
+
     try {
       setLoading(true);
-      const response = await axios.get(
-        `https://api.boostiny.com/publisher/campaigns?page=${page}`,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: "186fb9118a80850c7ceb35ebd04b1667e2320448",
-          },
-        }
-      );
 
-      if (response.status !== 200) {
-        throw new Error("Failed to fetch campaigns. Please try again later.");
+      // Loop through all pages and fetch campaigns
+      while (currentPage <= totalPages) {
+        const response = await axios.get(
+          `https://api.boostiny.com/publisher/campaigns?page=${currentPage}`,
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: "186fb9118a80850c7ceb35ebd04b1667e2320448",
+            },
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch campaigns. Please try again later.");
+        }
+
+        const fetchedCampaigns = response.data.payload.data;
+        const pagination = response.data.payload.pagination;
+
+        totalPages = Math.ceil(pagination.total / pagination.perPage); // Calculate total pages
+        allCampaigns = [...allCampaigns, ...fetchedCampaigns]; // Append campaigns from current page
+
+        currentPage++; // Move to the next page
       }
 
-      const fetchedCampaigns = response.data.payload.data;
-      const pagination = response.data.payload.pagination;
-
-      setTotalPages(Math.ceil(pagination.total / pagination.perPage));
-      setCampaigns(fetchedCampaigns);
+      setCampaigns(allCampaigns); // Set all fetched campaigns to state
+      setFilteredCampaigns(allCampaigns); // Initially, display all campaigns
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -47,22 +54,22 @@ const CampaignsPage = () => {
     }
   };
 
-  // Filter campaigns based on search query
+  // Handle search when searchQuery changes
   useEffect(() => {
-    if (query) {
+    if (searchQuery.trim() === "") {
+      setFilteredCampaigns(campaigns);
+    } else {
       const filtered = campaigns.filter((campaign) =>
-        campaign.name.toLowerCase().includes(query.toLowerCase())
+        campaign.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredCampaigns(filtered);
-    } else {
-      setFilteredCampaigns(campaigns); // Show all campaigns if no query
     }
-  }, [campaigns, query]);
+  }, [searchQuery, campaigns]);
 
-  // Fetch campaigns when the component mounts and when the current page changes
+  // Fetch all campaigns when the component mounts
   useEffect(() => {
-    fetchCampaigns(currentPage);
-  }, [currentPage]);
+    fetchAllCampaigns();
+  }, []);
 
   // Handle coupon code visibility toggle
   const [showCode, setShowCode] = useState(null); // Track which coupon code is shown
@@ -123,7 +130,7 @@ const CampaignsPage = () => {
                         <p className="card-text mb-0">
                           Coupon:{" "}
                           {showCode === index ? (
-                            <span className="badge bg-success">
+                            <span className="badge bg-success fs-5">
                               {campaign.coupons[0].coupon}
                             </span>
                           ) : (
@@ -172,8 +179,19 @@ const CampaignsPage = () => {
           ))}
         </div>
       )}
+    </div>
+  );
+};
 
-      {/* Pagination Buttons */}
+export default CampaignsPage;
+
+// Handle coupon code visibility toggle
+// const [showCode, setShowCode] = useState(null); // Track which coupon code is shown
+
+// const handleShowCode = (index) => {
+//   setShowCode((prevIndex) => (prevIndex === index ? null : index)); // Toggle code visibility
+// };
+/* Pagination Buttons
       <div className="d-flex justify-content-around mt-4">
         <button
           className="btn btn-primary mb-5"
@@ -195,4 +213,4 @@ const CampaignsPage = () => {
   );
 };
 
-export default CampaignsPage;
+export default CampaignsPage; */

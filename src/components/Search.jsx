@@ -1,15 +1,24 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Search = () => {
-  const [query, setQuery] = useState(""); // State to hold the search query
+const Search = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value); // Trigger search on every change
+
+    // If search bar is cleared, redirect to campaigns page
+    if (value === "") {
+      navigate("/campaigns"); // Reset to campaigns page
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim() !== "") {
-      navigate(`/campaigns?search=${query}`); // Redirect to CampaignsPage with search query
-    }
+    onSearch(query);
   };
 
   return (
@@ -20,9 +29,9 @@ const Search = () => {
           name="search"
           type="text"
           className="form-control"
-          placeholder="Search campaigns"
+          placeholder="Search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)} // Update search query on change
+          onChange={handleSearchChange} // Update search on change
           required
         />
         <label className="visually-hidden" htmlFor="search"></label>

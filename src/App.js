@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
@@ -41,10 +41,16 @@ const CouponsPage = lazy(() => import("./views/pages/CouponsPage"));
 const CampaignsPage = lazy(() => import("./views/pages/CampaignsPage"));
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState(""); // Add state to track search query
+
+  // Handle search query update from the header
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
   return (
     <BrowserRouter>
       <React.Fragment>
-        <Header>
+        <Header onSearch={handleSearch}>
           <li className="nav-item">
             <a className="nav-link" href="/coupons">
               Coupons
@@ -62,7 +68,11 @@ function App() {
             <Route path="/" element={<Navigate to="/campaigns" replace />} />
 
             {/* Campaigns Page will act as the new Home Page */}
-            <Route exact path="/campaigns" element={<CampaignsPage />} />
+            <Route
+              exact
+              path="/campaigns"
+              element={<CampaignsPage searchQuery={searchQuery} />}
+            />
 
             {/* Other Routes */}
             <Route exact path="/account/signin" element={<SignInView />} />
