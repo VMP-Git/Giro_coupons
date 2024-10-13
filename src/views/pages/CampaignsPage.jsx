@@ -111,7 +111,7 @@ const CampaignsPage = ({ searchQuery }) => {
               <div className="card h-100 shadow">
                 {campaign.advertiser?.logo && (
                   <img
-                    src={campaign.advertiser.logo}
+                    src={campaign.logo}
                     alt={`${campaign.advertiser.name} Logo`}
                     className="card-img-top p-3"
                     style={{ height: "150px", objectFit: "contain" }}
