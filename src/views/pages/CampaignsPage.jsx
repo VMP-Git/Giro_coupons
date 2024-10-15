@@ -9,7 +9,7 @@ const CampaignsPage = ({ searchQuery }) => {
   const [error, setError] = useState(null); // Track error state
 
   // Fallback image if logo URL fails
-  const defaultLogo = "../../images/Girogamezlogo.png"; // Adjust this path
+  const defaultLogo = "../../images/H&Mimage.png"; // Adjust this path
 
   // Function to fetch all campaigns across pages
   const fetchAllCampaigns = async () => {
