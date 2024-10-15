@@ -5,11 +5,34 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const CampaignsPage = ({ searchQuery }) => {
   const [campaigns, setCampaigns] = useState([]); // Track all campaigns
   const [filteredCampaigns, setFilteredCampaigns] = useState([]); // Track filtered campaigns
+  const [categories, setCategories] = useState([]); // Track categories
+  const [selectedCategory, setSelectedCategory] = useState(""); // Track selected category
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
 
   // Fallback image if logo URL fails
   const defaultLogo = "../../images/H&Mimage.png"; // Adjust this path
+
+  // Function to check if cached data is available and still valid (24 hours)
+  const checkCache = () => {
+    const cachedData = JSON.parse(localStorage.getItem("campaignData"));
+    const cachedTimestamp = localStorage.getItem("campaignDataTimestamp");
+
+    if (cachedData && cachedTimestamp) {
+      const now = new Date().getTime();
+      const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      if (now - cachedTimestamp < oneDay) {
+        return cachedData; // Return cached data if it’s still valid
+      }
+    }
+    return null; // No valid cache available
+  };
+
+  // Function to cache the campaign data in localStorage
+  const cacheData = (data) => {
+    localStorage.setItem("campaignData", JSON.stringify(data));
+    localStorage.setItem("campaignDataTimestamp", new Date().getTime());
+  };
 
   // Function to fetch all campaigns across pages
   const fetchAllCampaigns = async () => {
@@ -45,14 +68,62 @@ const CampaignsPage = ({ searchQuery }) => {
         currentPage++; // Move to the next page
       }
 
+      // Cache the fetched campaigns
+      cacheData(allCampaigns);
+
       setCampaigns(allCampaigns); // Set all fetched campaigns to state
       setFilteredCampaigns(allCampaigns); // Initially, display all campaigns
+
+      // Extract unique categories
+      const uniqueCategories = [
+        "All",
+        ...new Set(
+          allCampaigns.map((campaign) => campaign.category).filter(Boolean)
+        ),
+      ];
+      setCategories(uniqueCategories);
+
       setLoading(false);
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
   };
+
+  // Handle category selection
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
+
+    // Filter campaigns by category
+    if (category === "All") {
+      setFilteredCampaigns(campaigns);
+    } else {
+      setFilteredCampaigns(
+        campaigns.filter((campaign) => campaign.category === category)
+      );
+    }
+  };
+
+  // Fetch all campaigns and check for cache when the component mounts
+  useEffect(() => {
+    const cachedCampaigns = checkCache(); // Check for cached data
+
+    if (cachedCampaigns) {
+      setCampaigns(cachedCampaigns);
+      setFilteredCampaigns(cachedCampaigns);
+      const uniqueCategories = [
+        "All",
+        ...new Set(
+          cachedCampaigns.map((campaign) => campaign.category).filter(Boolean)
+        ),
+      ];
+      setCategories(uniqueCategories);
+      setLoading(false);
+    } else {
+      fetchAllCampaigns(); // Fetch campaigns if no valid cache
+    }
+  }, []);
 
   // Handle search when searchQuery changes
   useEffect(() => {
@@ -65,11 +136,6 @@ const CampaignsPage = ({ searchQuery }) => {
       setFilteredCampaigns(filtered);
     }
   }, [searchQuery, campaigns]);
-
-  // Fetch all campaigns when the component mounts
-  useEffect(() => {
-    fetchAllCampaigns();
-  }, []);
 
   // Handle coupon code visibility toggle
   const [showCode, setShowCode] = useState(null); // Track which coupon code is shown
@@ -99,8 +165,36 @@ const CampaignsPage = ({ searchQuery }) => {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 ">
       <h1 className="text-center mb-4">Active Campaigns</h1>
+
+      {/* Category Filter */}
+      <div className="mb-4 col-md-6 col-lg-4 ">
+        <label htmlFor="category-select" className="form-label fw-bold">
+          Select Category:
+        </label>
+        <div className="input-group ">
+          <div className="input-group-prepend">
+            <span className="input-group-text bg-primary text-white">
+              <i className="bi bi-filter"></i>
+            </span>
+          </div>
+          <select
+            id="category-select"
+            className="form-select border-primary"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Campaigns List */}
 
       {filteredCampaigns.length === 0 ? (
         <p className="text-center">No campaigns available.</p>
@@ -109,7 +203,7 @@ const CampaignsPage = ({ searchQuery }) => {
           {filteredCampaigns.map((campaign, index) => (
             <div key={`${campaign.id}-${index}`} className="col-md-4 mb-4">
               <div className="card h-100 shadow">
-                {campaign.advertiser?.logo && (
+                {campaign?.logo && (
                   <img
                     src={campaign.logo}
                     alt={`${campaign.advertiser.name} Logo`}
