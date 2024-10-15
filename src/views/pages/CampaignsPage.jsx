@@ -114,7 +114,11 @@ const CampaignsPage = ({ searchQuery }) => {
                     src={campaign.logo}
                     alt={`${campaign.advertiser.name} Logo`}
                     className="card-img-top p-3"
-                    style={{ height: "150px", objectFit: "contain" }}
+                    style={{
+                      //width: "350px",
+                      height: "300px",
+                      objectFit: "contain",
+                    }}
                     onError={(e) => (e.target.src = defaultLogo)}
                   />
                 )}
